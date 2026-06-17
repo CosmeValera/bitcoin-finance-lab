@@ -61,8 +61,8 @@ function formatPrice(p: number): string {
           Build portfolios, benchmark assets, and simulate DCA strategies with real market data.
         </p>
         <nav class="nav-tabs">
-          <RouterLink to="/" class="tab">Portfolio Builder</RouterLink>
-          <RouterLink to="/benchmark" class="tab">Benchmark</RouterLink>
+          <RouterLink to="/" class="tab">Benchmark</RouterLink>
+          <RouterLink to="/portfolio" class="tab">Portfolio Builder</RouterLink>
           <RouterLink to="/simulator" class="tab">DCA Simulator</RouterLink>
         </nav>
       </div>

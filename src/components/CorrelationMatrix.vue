@@ -102,7 +102,6 @@ function corrColor(value: number): string {
 }
 
 function corrText(value: number): string {
-  if (value === 1) return '1.00'
   return value.toFixed(2)
 }
 
@@ -154,13 +153,14 @@ function shortName(name: string): string {
               v-for="(val, j) in row"
               :key="'c-' + j"
               class="corr-cell"
+              :class="{ diagonal: i === j }"
               :style="{
-                background: corrColor(val),
-                color: textColor(val),
+                background: i === j ? undefined : corrColor(val),
+                color: i === j ? undefined : textColor(val),
               }"
-              :title="`${matrix.labels[i]} vs ${matrix.labels[j]}: ${val.toFixed(4)}`"
+              :title="i === j ? `${matrix.labels[i]} vs itself: not applicable` : `${matrix.labels[i]} vs ${matrix.labels[j]}: ${val.toFixed(4)}`"
             >
-              {{ corrText(val) }}
+              {{ i === j ? 'N/A' : corrText(val) }}
             </td>
           </tr>
         </tbody>
@@ -280,6 +280,13 @@ h2 {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
   z-index: 2;
   position: relative;
+}
+
+.corr-cell.diagonal {
+  position: relative;
+  overflow: hidden;
+  background: rgba(148, 163, 184, 0.18);
+  color: var(--text-muted);
 }
 
 .legend {

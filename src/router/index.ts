@@ -5,11 +5,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('../views/PortfolioBuilderView.vue'),
+      component: () => import('../views/BenchmarkView.vue'),
     },
     {
-      path: '/benchmark',
-      component: () => import('../views/BenchmarkView.vue'),
+      path: '/portfolio',
+      component: () => import('../views/PortfolioBuilderView.vue'),
     },
     {
       path: '/simulator',

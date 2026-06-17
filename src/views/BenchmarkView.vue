@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, computed, nextTick } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useComparisonStore } from '@/stores/comparison'
 import { useKeyboardShortcuts } from '@/composables/useKeyboardShortcuts'
 import AssetSelector from '@/components/AssetSelector.vue'
@@ -11,17 +11,6 @@ import RiskReturnScatter from '@/components/RiskReturnScatter.vue'
 
 const store = useComparisonStore()
 const copied = ref(false)
-const showAdvanced = ref(false)
-const advancedRef = ref<HTMLElement | null>(null)
-
-function toggleAdvanced() {
-  showAdvanced.value = !showAdvanced.value
-  if (showAdvanced.value) {
-    nextTick(() => {
-      advancedRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
-  }
-}
 
 function share() {
   navigator.clipboard.writeText(store.toShareUrl())
@@ -166,28 +155,9 @@ onMounted(() => {
 
       <template v-if="store.assetsData.length > 1">
         <div class="panel-divider"></div>
-
-        <!-- Advanced Analytics (collapsed by default) -->
-        <button class="btn-advanced-toggle" @click="toggleAdvanced">
-          <svg
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            width="12"
-            height="12"
-            class="chevron"
-            :class="{ open: showAdvanced }"
-          >
-            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-          </svg>
-          {{ showAdvanced ? 'Hide' : 'Show' }} Advanced Analytics
-        </button>
-
-        <template v-if="showAdvanced">
-          <div ref="advancedRef" class="panel-divider"></div>
-          <RiskReturnScatter />
-          <div class="panel-divider"></div>
-          <CorrelationMatrix />
-        </template>
+        <RiskReturnScatter />
+        <div class="panel-divider"></div>
+        <CorrelationMatrix />
       </template>
 
       <div class="perf-actions">
@@ -412,37 +382,6 @@ onMounted(() => {
   background: var(--green);
   border-color: var(--green);
   color: #fff;
-}
-
-.btn-advanced-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.6rem;
-  border: 1px dashed var(--border);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-  letter-spacing: 0.03em;
-}
-
-.btn-advanced-toggle:hover {
-  border-color: var(--text-muted);
-  color: var(--text);
-}
-
-.chevron {
-  transition: transform 0.2s;
-}
-
-.chevron.open {
-  transform: rotate(180deg);
 }
 
 .perf-actions {
